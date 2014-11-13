@@ -1,0 +1,87 @@
+/**
+ * @file psort.cpp
+ */
+
+/**
+ * Public wrapper for the parallel sort implementation.
+ * @param array The structure to sort
+ */
+#include <stdlib.h>
+
+template <class T>
+void ParallelSort::psort(vector<T>* array)
+{
+
+    int lo= *array[1];
+    int high = *array[*array.size() - 1];
+    
+    psort(array, lo, high);
+}
+
+template <class T>
+void ParallelSort::psort(vector<T>* array, int lo, int high) {
+    
+    if(lo > high) return;
+
+    
+    psort(array, lo, pivotIndex - 1);
+    psort(array, pivotIndex + 1, high);
+    
+}
+
+template <class T>
+int partition(vector<T>* array) {
+    
+    int optimalPivotIndex = getOptimalPivot(array);
+    int optimalPivot = array[optimalPivotIndex];
+    swap(array, 0, optimalPivotIndex);
+    
+    int loRunner = *array[1];
+    int highRunner = *array[*array.size() - 1];
+    
+    while(loRunner < highRunner) {
+        
+        while(*array[loRunner] <= optimalPivot) loRunner++;
+        
+        while(*array[highRunner > optimalPivot]) highRunner--;
+        
+        if(loRunner < highRunner) swap(array, loRunner, highRunner);
+        
+    }
+    
+    swap(array, 0, highRunner);
+    return highRunner;
+    
+    
+}
+
+
+template <class T>
+int ParallelSort::getOptimalPivot(vector<T>* array) {
+    
+    
+    int size = *array.size();
+    int rand1, rand2, rand3;
+    
+    rand1 = rand() % (size - 1);
+    rand2 = rand() % (size - 1);
+    rand3 = rand() % (size - 1);
+    
+    vector<int> indexArray;
+    indexArray.push_back(rand1);
+    indexArray.push_back(rand2);
+    indexArray.push_back(rand3);
+    
+    std::sort(indexArray->begin(), indexArray->end());
+    
+    return indexArray[1];
+    
+}
+
+template <class T>
+void ParallelSort::swap(vector<T>* array, int index1, int index2) {
+    
+    T temp = *array[index1];
+    *array[index1] = *array[index2];
+    *array[index2] = temp;
+}

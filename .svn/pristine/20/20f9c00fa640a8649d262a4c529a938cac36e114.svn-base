@@ -1,0 +1,97 @@
+/**
+ * @file psort.cpp
+ */
+
+/**
+ * Public wrapper for the parallel sort implementation.
+ * @param array The structure to sort
+ */
+#include <stdlib.h>
+#include <iostream>
+
+template <class T>
+void ParallelSort::psort(vector<T>* array)
+{
+    psort(array, 0, array -> size() - 1);
+}
+
+template <class T>
+void ParallelSort::psort(vector<T>* array, int lo, int high) {
+    
+    if(lo >= high) return;
+    int pivotIndex = partition(array, lo, high);
+    psort(array, lo, pivotIndex - 1);
+    psort(array, pivotIndex + 1, high);
+    
+}
+
+template <class T>
+int ParallelSort::partition(vector<T>* array, int lo, int high) {
+   
+    // get the index of the optimal pivot
+    int optimalPivotIndex = getOptimalPivot(lo, high);
+    // get the value of the optimal pivot
+    T optimalPivot = array -> at(optimalPivotIndex);
+    // swap the lowest element in the array with the pivot
+    swap(array, lo, optimalPivotIndex);
+   
+    // start the left runner after the low point and start the high runner at the last index
+    int loRunner = lo + 1;
+    int highRunner = high;
+    
+    // keep going as long as the the runners do not overlap
+    while(loRunner < highRunner) {
+        
+        while(array -> at(loRunner) <= optimalPivot) loRunner++;
+        
+        while(array -> at(highRunner) > optimalPivot) highRunner--;
+        
+        if(loRunner < highRunner) swap(array, loRunner, highRunner);
+        
+    }
+    
+    if(optimalPivot > array -> at(highRunner)) {
+        swap(array, lo, highRunner);
+        return highRunner;
+    }
+    else return lo;
+    
+    
+}
+
+
+int ParallelSort::getOptimalPivot(int lo, int high) {
+    
+    
+    int size = high - lo + 1;
+    int rand1, rand2, rand3;
+    
+    // get three random indices
+    rand1 = (rand() % size) + lo;
+    rand2 = (rand() % size) + lo;
+    rand3 = (rand() % size) + lo;
+    
+    vector<int>* indexArray = new vector<int>();
+    indexArray -> push_back(rand1);
+    indexArray -> push_back(rand2);
+    indexArray -> push_back(rand3);
+    
+    std::sort(indexArray->begin(), indexArray->end());
+    
+    // get the median of the three indices
+    int ret_val = indexArray -> at(1);
+    delete indexArray;
+
+    // return our optimal pivot
+    return ret_val;
+    
+}
+
+template <class T>
+void ParallelSort::swap(vector<T>* array, int index1, int index2) {
+    
+    if(index1 == index2) return;
+    T temp = array -> at(index1);
+    array -> at(index1) = array -> at(index2);
+    array -> at(index2) = temp;
+}

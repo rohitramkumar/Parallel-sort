@@ -1,0 +1,51 @@
+/**
+ * @file psort.h
+ */
+
+#ifndef _PSORT_H_
+#define _PSORT_H_
+
+#include <iostream>
+#include <vector>
+#include <omp.h>
+
+using std::vector;
+
+namespace ParallelSort
+{
+    /**
+     * Public wrapper for the parallel sort implementation.
+     * @param array The structure to sort
+     */
+    template <class T>
+    void psort(vector<T>* array);
+    
+    /**
+     * Function that is called by wrapper.
+     */
+    template<class T>
+    void psort(vector<T>* array, int lo, int high);
+
+    /**
+     * Helper function that partitions vector based on a pivot value
+     */
+    template <class T>
+    int partition(vector<T>* array, int lo, int high);
+    
+    /**
+     * Helper function that produces the index of an optimal pivot
+     * value that the partition function can use
+     */
+    int getOptimalPivot(int lo, int high);
+
+    /**
+     * Helper function that swaps two indeces in the given vector.
+     */
+    template <class T>
+    void swap(vector<T>* array, int index1, int index2);
+
+
+}
+
+#include "psort.cpp"
+#endif

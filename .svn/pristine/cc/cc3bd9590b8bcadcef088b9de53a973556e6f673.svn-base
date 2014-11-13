@@ -1,0 +1,13 @@
+/**
+ * @file psort.cpp
+ */
+
+/**
+ * Public wrapper for the parallel sort implementation.
+ * @param array The structure to sort
+ */
+template <class T>
+void ParallelSort::psort(vector<T>* array)
+{
+
+}
