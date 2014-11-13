@@ -1,4 +1,4 @@
-CS-225--Honors
+CS296-25
 ==============
 
-CS 225 honors assignments
+Honors assignments for CS225 Data Structures course
