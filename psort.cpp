@@ -3,10 +3,6 @@
  *
  */
 
-/**
- * Public wrapper for the parallel sort implementation.
- * @param array The structure to sort
- */
 #include <stdlib.h>
 #include <iostream>
 
@@ -15,7 +11,6 @@ void ParallelSort::psort(vector<T>* array)
 {
     omp_set_num_threads(16);
     omp_set_nested(0);
-    //if(sorted(array)) return;
     #pragma omp parallel
     #pragma omp single nowait
     concurrent_psort(array, 0, array -> size() - 1);
@@ -47,7 +42,7 @@ void ParallelSort::concurrent_psort(vector<T>* array, int lo, int high) {
 
         #pragma omp task
         concurrent_psort(array, lo, pivotIndex - 1);
-	#pragma omp task
+		#pragma omp task
         concurrent_psort(array, pivotIndex + 1, high);
       }
     }
@@ -70,7 +65,7 @@ void ParallelSort::sequential_psort(vector<T>* array, int lo, int high) {
 template <class T>
 int ParallelSort::partition(vector<T>* array, int lo, int high) {
    
-   int pivotIndex = lo + (high - lo) / 2;/*getRandomPivot(lo, high);*/
+   int pivotIndex = lo + (high - lo) / 2;  
    T pivot = array -> at(pivotIndex);
    swap(array, lo, pivotIndex);
    int loRunner = lo + 1;
