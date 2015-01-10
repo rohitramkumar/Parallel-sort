@@ -1,4 +1,4 @@
-CS296-25
+Parellel-sort
 ==============
 
-Honors assignments for CS225 Data Structures course
+Implementation of a parallel quicksort for CS 225 Honors Course
